@@ -1,0 +1,18 @@
+# requirements.txt (at the ROOT of mlops-syllabus-main)
+
+# Common
+streamlit
+pandas
+
+# For Problem 1 (CSV Visualizer)
+plotly # Already included in Exercise 4, but good to list explicitly
+
+# For Problem 2 (Weather App) - Anticipated
+requests # For making API calls
+
+# For Problem 3 (Sentiment Analysis) - Anticipated
+nltk # Common NLP library (might use this or another like TextBlob/VADER)
+# textblob # Alternative/additional library for sentiment
+# vaderSentiment # Another popular sentiment library
+
+# Add any other dependencies from other parts of your mlops-syllabus-main project if needed
