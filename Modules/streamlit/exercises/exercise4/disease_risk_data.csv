@@ -1,0 +1,11 @@
+Location,Avg_Temperature_C,Avg_Humidity_Percent,Avg_Rainfall_mm,Disease_Risk_Score,Predicted_Disease,Latitude,Longitude
+Farm A,25,80,5,85,Leaf Blight,40.7128,-74.0060
+Farm B,22,75,2,70,Powdery Mildew,34.0522,-118.2437
+Farm C,28,85,10,92,Downy Mildew,41.8781,-87.6298
+Farm D,20,65,1,55,Rust,30.2672,-97.7431
+Farm E,26,82,7,88,Leaf Blight,39.9526,-75.1652
+Farm A,26,81,6,87,Leaf Blight,40.7128,-74.0060
+Farm B,23,77,3,75,Powdery Mildew,34.0522,-118.2437
+Farm C,27,84,9,90,Downy Mildew,41.8781,-87.6298
+Farm D,21,68,2,60,Rust,30.2672,-97.7431
+Farm E,27,83,8,89,Leaf Blight,39.9526,-75.1652
