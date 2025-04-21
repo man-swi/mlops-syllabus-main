@@ -1,0 +1,13 @@
+FROM python:3.9
+# Set the working directory to /app
+WORKDIR /app
+# Copy the contents of the backend directory into the container at /app
+COPY . .
+# Install dependencies specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose port 5000 for the Flask application
+EXPOSE 8000
+# Define the default command to run the application
+ENTRYPOINT [ "python" ]
+CMD [ "app01.py"]

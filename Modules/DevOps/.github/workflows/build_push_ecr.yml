@@ -1,0 +1,44 @@
+name: Build and Push Docker Image to ECR
+
+on:
+  push:
+    branches:
+      - Branch_name #main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Check out the repository code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup AWS ECR Details
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{secrets.AWS_REGION}}
+        aws_session_token: ${{secrets.AWS_SESSION_TOKEN}}
+    - name: Login to Amazon ECR
+      id: login-pf-aws-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    # Define environment variables for reuse
+    - name: Set environment variables
+      run: |
+        echo "ECR_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPO_NAME }}" >> $GITHUB_ENV
+        echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
+        # Alternative: Use GitHub run number for tagging
+        # echo "IMAGE_TAG=${{ github.run_number }}" >> $GITHUB_ENV
+
+      # Build the Docker image
+    - name: Build Docker image
+      run: |
+        docker build -t $ECR_URI:$IMAGE_TAG .
+
+    # Push the Docker image to ECR
+    - name: Push Docker image to ECR
+      run: |
+        docker push $ECR_URI:$IMAGE_TAG

@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create an EC2 instance and an S3 bucket for static website hosting
+
+Resources:
+  # EC2 Instance
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-02d3770deb1c746ec # Amazon Linux 2 AMI (HVM), SSD Volume Type
+      InstanceType: t2.micro
+      SecurityGroupIds:
+        - !Ref InstanceSecurityGroup
+      # KeyName: bastion-db # Replace with your EC2 key pair name
+
+  # Security Group for EC2 Instance
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH and HTTP
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+  MyBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName:   
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+  MyBucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket:
+        Ref: 'MyBucket'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource:
+              Fn::Join:
+                - ''
+                - - 'arn:aws:s3:::'
+                  - Ref: 'MyBucket'
+                  - '/*'
+
+Outputs:
+  WebsiteURL:
+    Description: "URL of the S3 bucket to access the website"
+    Value: !GetAtt [ MyBucket, WebsiteURL]
+  EC2PublicIP:
+    Description: "Public IP address of the EC2 instance"
+    Value: !GetAtt [EC2Instance, PublicIp]
