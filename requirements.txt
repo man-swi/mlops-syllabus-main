@@ -5,3 +5,5 @@ plotly
 requests 
 nltk 
 textblob
+kfp
+elasticsearch
