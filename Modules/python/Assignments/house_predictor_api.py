@@ -20,7 +20,7 @@ class HouseFeatures(BaseModel):
 
 # --- Prediction Class ---
 class HousePricePredictor:
-    def __init__(self, train_csv_path="train.csv"):
+    def __init__(self, train_csv_path="house.csv"):
         self.model = None
         self.imputer = None
         self.features = ['GrLivArea', 'BedroomAbvGr', 'FullBath', 'YearBuilt', 'TotalBsmtSF']
